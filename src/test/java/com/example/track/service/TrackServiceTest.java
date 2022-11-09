@@ -72,15 +72,12 @@ public class TrackServiceTest {
     }
 
     @Test
-    public void deleteTrackFailure() throws TrackNotFoundException {
-      // when(trackRepository.findById(track1.getTrackId())).thenReturn(Optional.ofNullable(null));
-        boolean flag=trackService.deleteTrack(track1.getTrackId());
-        assertEquals(true,flag);
-
-       // verify(trackRepository,times(0)).deleteById(track1.getTrackId());
-        verify(trackRepository,times(1)).findById(track1.getTrackId());
+    public void deleteTrackFailure(){
+        when(trackRepository.findById(track1.getTrackId())).thenReturn(Optional.ofNullable(null));
+        assertThrows(TrackNotFoundException.class,()-> trackService.deleteTrack(track1.getTrackId()));
+        verify(trackRepository,times(0)).save(any());
+        verify(trackRepository,times(1)).findById(any());
     }
-
 
 
 
